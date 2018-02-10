@@ -10,9 +10,9 @@ allData <- rbind(trainData, testData)
 
 # Assign names to the data from the features file
 featuresFile <- "data/features.txt"
-features <- readLines(featuresFile)
+features <- read.csv(featuresFile, header = FALSE, sep="")
 
-names(allData) <- features
+names(allData) <- features$V2
 
 # Retrieving only mean and sd columns
 msData <- allData[, grepl("mean\\(\\)|std\\(\\)", names(allData))]
@@ -38,3 +38,18 @@ allLabelsMerged <- merge(allLabels, activityLabels, by.x = "label", by.y = "Id")
 
 # Add activities to the dataset
 msData$activity <- allLabelsMerged$Name
+
+# Add subjects to the dataset
+subjectsTrainFile <- "data/train/subject_train.txt"
+subjectsTestFile <- "data/test/subject_test.txt"
+
+trainSubjects <- read.csv(subjectsTrainFile, header = FALSE)
+testSubjects <- read.csv(subjectsTestFile, header = FALSE)
+
+allSubjects <- rbind(trainSubjects, testSubjects)
+names(allSubjects) <- "subject"
+
+msData$subject <- allSubjects$subject
+
+# Group data for each activity and subject
+groupedData <- aggregate(. ~ activity + subject, msData, mean)
