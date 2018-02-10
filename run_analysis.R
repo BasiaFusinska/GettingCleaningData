@@ -14,6 +14,9 @@ features <- readLines(featuresFile)
 
 names(allData) <- features
 
+# Retrieving only mean and sd columns
+msData <- allData[, grepl("mean\\(\\)|std\\(\\)", names(allData))]
+
 # Read the activity labels
 activityLabelsFile <- "data/activity_labels.txt"
 activityLabels <- read.csv(activityLabelsFile, header = FALSE, sep = "")
@@ -34,4 +37,4 @@ names(allLabels) <- "label"
 allLabelsMerged <- merge(allLabels, activityLabels, by.x = "label", by.y = "Id")
 
 # Add activities to the dataset
-allData$activity <- allLabelsMerged$Name
+msData$activity <- allLabelsMerged$Name
