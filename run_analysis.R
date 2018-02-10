@@ -13,3 +13,25 @@ featuresFile <- "data/features.txt"
 features <- readLines(featuresFile)
 
 names(allData) <- features
+
+# Read the activity labels
+activityLabelsFile <- "data/activity_labels.txt"
+activityLabels <- read.csv(activityLabelsFile, header = FALSE, sep = "")
+names(activityLabels) <- c("Id", "Name")
+
+# Read the data labels
+trainLabelsFile <- "data/train/y_train.txt"
+testLabelsFile <- "data/test/y_test.txt"
+
+trainLabels <- read.csv(trainLabelsFile, header = FALSE)
+testLabels <- read.csv(testLabelsFile, header = FALSE)
+
+# Merge the train and test data labels
+allLabels <- rbind(trainLabels, testLabels)
+names(allLabels) <- "label"
+
+# Retrieve activities descriptive names
+allLabelsMerged <- merge(allLabels, activityLabels, by.x = "label", by.y = "Id")
+
+# Add activities to the dataset
+allData$activity <- allLabelsMerged$Name
