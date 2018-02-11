@@ -34,5 +34,6 @@ vignettes/*.pdf
 
 .Rproj.user
 
+/data
 UCI HAR Dataset.zip
 cleanData.txt
