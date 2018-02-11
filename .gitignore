@@ -32,5 +32,7 @@ vignettes/*.pdf
 *.utf8.md
 *.knit.md
 
-/data
 .Rproj.user
+
+UCI HAR Dataset.zip
+cleanData.txt
